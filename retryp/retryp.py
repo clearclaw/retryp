@@ -1,6 +1,6 @@
 #! /usr/bin/env pytho
 
-from logging, logtool, random, time, wrapt
+import logging, logtool, random, time, wrapt
 
 LOG = logging.getLogger (__name__)
 DEFAULT_RETRIES = 10
@@ -11,19 +11,19 @@ MAX_RETRIES = 1073741823
 class FailedTooOften (Exception):
   pass
 
-class retryp (object):
+class retryp (object): # pylint: disable=C0103,R0903
 
   @logtool.log_call (log_exit = False)
   def __init__ (self, count = DEFAULT_RETRIES,
                 delay = DEFAULT_DELAY, backoff = DEFAULT_BACKOFF, jitter = 0,
-                refuse_rc_fn = None, expose_exc_fn = None,
-                expose_last_exc = False, log_faults = False) :
+                refuse_rc_fn = None, refuse_exc_fn = None,
+                expose_last_exc = False, log_faults = False):
     self.count = count if count else MAX_RETRIES # Nothing is forever
     self.delay = delay
     self.backoff = backoff
     self.jitter = jitter
     self.refuse_rc_fn = refuse_rc_fn
-    self.expose_exc_fn = expose_exc_fn
+    self.refuse_exc_fn = refuse_exc_fn
     self.expose_last_exc = expose_last_exc
     self.log_faults = log_faults
 
@@ -36,13 +36,14 @@ class retryp (object):
       try:
         rc = fn (*args, **kwargs)
         if self.refuse_rc_fn and self.refuse_rc_fn (rc):
+          LOG.debug ("RC refused...retrying...")
           continue
         return rc
       except Exception as e:
         if self.log_faults:
           logtool.log_fault (e)
-        if self.expose_exc_fn and self.expose_exc_fn (e):
-          LOG.debug ("Exposing exception: %s", e)
+        if self.refuse_exc_fn and self.refuse_exc_fn (e):
+          LOG.debug ("Exception refused: %s", e)
           raise
         if self.expose_last_exc and attempt == self.count - 1: # Last one
           LOG.debug ("Exposing last exception: %s", e)
@@ -53,4 +54,5 @@ class retryp (object):
                + attempt * self.backoff)
         LOG.debug ("Retryp delay: %d seconds", zzz)
         time.sleep (zzz)
-    raise FailedTooOften
+    
+    raise FailedTooOften ("")

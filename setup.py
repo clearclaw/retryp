@@ -9,7 +9,7 @@ __version__, __version_info__ = pyver.get_version (pkg = "retryp",
 setup (
     name = "retryp",
     version = __version__,
-    description = "Featured retry decorator.",
+    description = "Well-featured retry decorator",
     long_description = file ("README.rst").read (),
     classifiers = [
         "Development Status :: 4 - Beta",
