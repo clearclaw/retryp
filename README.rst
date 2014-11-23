@@ -7,7 +7,10 @@ From the `Jargon File <http://www.catb.org/jargon/html/p-convention.html>`:
 
     The -P Convention
 
-    Turning a word into a question by appending the syllable ‘P’; from the LISP convention of appending the letter ‘P’ to denote a predicate (a boolean-valued function). The question should expect a yes/no answer, though it needn't. (See T and NIL.)
+    Turning a word into a question by appending the syllable ‘P’;
+    from the LISP convention of appending the letter ‘P’ to denote
+    a predicate (a boolean-valued function). The question should
+    expect a yes/no answer, though it needn't. (See T and NIL.)
 
 ``retryp`` is yet another retry decorator, with nothing particularly
 special about it other than it being both well-featured and not
