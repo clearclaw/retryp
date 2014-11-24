@@ -73,4 +73,11 @@ expose_last_exc
 log_faults
   Default: False
 
-  Log every exception using logtool.log_fault.
+  Log every exception raised by the wrapped item using
+  logtool.log_fault.
+
+log_faults_level
+  Default: logging.CRITICAL
+
+  Logging level at which exceptions will be logged by
+  ``logtool.log_fault()`` when ``log_faults`` is set.

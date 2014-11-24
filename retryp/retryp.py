@@ -17,7 +17,8 @@ class retryp (object): # pylint: disable=C0103,R0903
   def __init__ (self, count = DEFAULT_RETRIES,
                 delay = DEFAULT_DELAY, backoff = DEFAULT_BACKOFF, jitter = 0,
                 refuse_rc_fn = None, refuse_exc_fn = None,
-                expose_last_exc = False, log_faults = False):
+                expose_last_exc = False, log_faults = False,
+                log_faults_level = logging.CRITICAL):
     self.count = count if count else MAX_RETRIES # Nothing is forever
     self.delay = delay
     self.backoff = backoff
@@ -26,6 +27,7 @@ class retryp (object): # pylint: disable=C0103,R0903
     self.refuse_exc_fn = refuse_exc_fn
     self.expose_last_exc = expose_last_exc
     self.log_faults = log_faults
+    self.log_faults_level = log_faults_level
 
   @wrapt.decorator
   @logtool.log_call (log_exit = False)
@@ -41,7 +43,7 @@ class retryp (object): # pylint: disable=C0103,R0903
         return rc
       except Exception as e:
         if self.log_faults:
-          logtool.log_fault (e)
+          logtool.log_fault (e, level = self.log_faults_level)
         if self.refuse_exc_fn and self.refuse_exc_fn (e):
           LOG.debug ("Exception refused: %s", e)
           raise
@@ -54,5 +56,5 @@ class retryp (object): # pylint: disable=C0103,R0903
                + attempt * self.backoff)
         LOG.debug ("Retryp delay: %d seconds", zzz)
         time.sleep (zzz)
-    
-    raise FailedTooOften ("")
+
+    raise FailedTooOften
