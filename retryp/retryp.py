@@ -11,6 +11,7 @@ MAX_RETRIES = 1073741823
 class FailedTooOften (Exception):
   pass
 
+@wrapt.decorator
 class retryp (object): # pylint: disable=C0103,R0903
 
   @logtool.log_call (log_exit = False)
@@ -29,7 +30,6 @@ class retryp (object): # pylint: disable=C0103,R0903
     self.log_faults = log_faults
     self.log_faults_level = log_faults_level
 
-  @wrapt.decorator
   @logtool.log_call (log_exit = False)
   def __call__ (self, fn, instance, args, kwargs):
     for attempt in xrange (self.count):
