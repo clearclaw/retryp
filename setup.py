@@ -3,11 +3,11 @@
 from setuptools import setup, find_packages
 
 import pyver
-__version__, __version_info__ = pyver.get_version (pkg = "retry_p",
+__version__, __version_info__ = pyver.get_version (pkg = "retryp",
                                                    public = True)
 
 setup (
-    name = "retry_p",
+    name = "retryp",
     version = __version__,
     description = "Well-featured retry decorator",
     long_description = file ("README.rst").read (),
