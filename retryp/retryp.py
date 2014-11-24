@@ -38,7 +38,7 @@ class retryp (object): # pylint: disable=C0103,R0903
       try:
         rc = fn (*args, **kwargs)
         if self.refuse_rc_fn and self.refuse_rc_fn (rc):
-          LOG.debug ("RC refused...retrying...")
+          LOG.debug ("RC refused...retrying...: %s", rc)
           continue
         return rc
       except Exception as e:
