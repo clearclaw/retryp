@@ -1,7 +1,7 @@
 retryp
 ======
 
-From the `Jargon File <http://www.catb.org/jargon/html/p-convention.html>`:
+From the `Jargon File <http://www.catb.org/jargon/html/p-convention.html>`_:
 
 ::
 
