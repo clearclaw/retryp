@@ -77,7 +77,7 @@ log_faults
   logtool.log_fault.
 
 log_faults_level
-  Default: logging.CRITICAL
+  Default: logging.DEBUG
 
   Logging level at which exceptions will be logged by
   ``logtool.log_fault()`` when ``log_faults`` is set.

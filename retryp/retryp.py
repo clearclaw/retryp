@@ -19,7 +19,7 @@ class retryp (object): # pylint: disable=C0103,R0903
                 delay = DEFAULT_DELAY, backoff = DEFAULT_BACKOFF, jitter = 0,
                 refuse_rc_fn = None, refuse_exc_fn = None,
                 expose_last_exc = False, log_faults = False,
-                log_faults_level = logging.CRITICAL):
+                log_faults_level = logging.DEBUG):
     self.count = count if count else MAX_RETRIES # Nothing is forever
     self.delay = delay
     self.backoff = backoff
