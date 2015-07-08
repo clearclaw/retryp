@@ -56,5 +56,4 @@ class retryp (object): # pylint: disable=C0103,R0903
                + attempt * self.backoff)
         LOG.debug ("Retryp delay: %d seconds", zzz)
         time.sleep (zzz)
-
     raise FailedTooOften
