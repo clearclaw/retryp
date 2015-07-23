@@ -44,6 +44,8 @@ class retryp (object): # pylint: disable=C0103,R0903
       except Exception as e:
         if self.log_faults:
           logtool.log_fault (e, level = self.log_faults_level)
+        else:
+          LOG.info ("Attempt %d failed: %s", attempt, e)
         if self.refuse_exc_fn and self.refuse_exc_fn (e):
           LOG.debug ("Exception refused: %s", e)
           raise
