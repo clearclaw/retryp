@@ -4,5 +4,5 @@
 #
 #    pip-compile requirements.in
 #
-logtool==0.2.23
+logtool==0.2.24
 wrapt==1.10.5
