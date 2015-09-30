@@ -52,10 +52,9 @@ class retryp (object): # pylint: disable=C0103,R0903
         if self.expose_last_exc and attempt == self.count - 1: # Last one
           LOG.debug ("Exposing last exception: %s", e)
           raise
-        zzz = (self.delay
-               + ((-1 if random.random () < 0.5 else 1)
-                  * (self.jitter * random.random ()))
-               + attempt * self.backoff)
+        wiggle = ((-1 if random.random () < 0.5 else 1)
+                 * (self.jitter * random.random ()))
+        zzz = abs (self.delay + wiggle) + attempt * self.backoff
         LOG.debug ("Retryp delay: %d seconds", zzz)
         time.sleep (zzz)
     raise FailedTooOften
