@@ -30,7 +30,7 @@ class retryp (object): # pylint: disable=C0103,R0903
     self.log_faults = log_faults
     self.log_faults_level = log_faults_level
 
-  @logtool.log_call (log_exit = False)
+  @logtool.log_call (log_exit = False, log_args = False)
   def __call__ (self, fn, instance, args, kwargs):
     for attempt in xrange (self.count):
       LOG.debug ("Retry attempt #%d/%d to call %s:%s:%s", attempt, self.count,
