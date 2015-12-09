@@ -1,6 +1,7 @@
 #! /usr/bin/env pytho
 
 import logging, logtool, random, time, wrapt
+from six.moves import range
 
 LOG = logging.getLogger (__name__)
 DEFAULT_RETRIES = 10
@@ -32,7 +33,7 @@ class retryp (object): # pylint: disable=C0103,R0903
 
   @logtool.log_call (log_exit = False, log_args = False)
   def __call__ (self, fn, instance, args, kwargs):
-    for attempt in xrange (self.count):
+    for attempt in range (self.count):
       LOG.debug ("Retry attempt #%d/%d to call %s:%s:%s", attempt, self.count,
                  fn.__class__.__name__, fn.__module__, fn.__name__)
       try:
