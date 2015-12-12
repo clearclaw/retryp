@@ -1,7 +1,6 @@
 #! /usr/bin/env pytho
 
 import logging, logtool, random, time, wrapt
-from six.moves import range
 
 LOG = logging.getLogger (__name__)
 DEFAULT_RETRIES = 10
