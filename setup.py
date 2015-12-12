@@ -7,7 +7,7 @@ setup (
     name = "retryp",
     version = versioneer.get_version (),
     description = "Well-featured retry decorator",
-    long_description = file ("README.rst").read (),
+    long_description = open ("README.rst", 'r', encoding = 'utf-8').read (),
     cmdclass = versioneer.get_cmdclass (),
     classifiers = [
         "Development Status :: 4 - Beta",
@@ -27,7 +27,8 @@ setup (
     },
     zip_safe = True,
     install_requires = [line.strip ()
-        for line in file ("requirements.txt").readlines ()],
+        for line in open ("requirements.txt", 'r',
+                        encoding = 'utf-8').readlines ()],
     entry_points = {
         "console_scripts": [
         ],
