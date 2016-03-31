@@ -35,6 +35,9 @@ class retryp (object): # pylint: disable=C0103,R0903
     for attempt in range (self.count):
       LOG.debug ("Retry attempt #%d/%d to call %s:%s:%s", attempt, self.count,
                  fn.__class__.__name__, fn.__module__, fn.__name__)
+      wiggle = ((-1 if random.random () < 0.5 else 1)
+                * (self.jitter * random.random ()))
+      zzz = abs (self.delay + wiggle) + attempt * self.backoff
       try:
         rc = fn (*args, **kwargs)
         if self.refuse_rc_fn and self.refuse_rc_fn (rc):
@@ -44,17 +47,12 @@ class retryp (object): # pylint: disable=C0103,R0903
       except Exception as e:
         if self.log_faults:
           logtool.log_fault (e, level = self.log_faults_level)
-        else:
-          LOG.info ("Attempt #%d failed: %r", attempt, e)
+        LOG.info ("Attempt #%d failed: %r  Delay: %d", attempt, e, zzz)
         if self.refuse_exc_fn and self.refuse_exc_fn (e):
           LOG.debug ("Exception refused: %s", e)
           raise
         if self.expose_last_exc and attempt == self.count - 1: # Last one
           LOG.debug ("Exposing last exception: %s", e)
           raise
-        wiggle = ((-1 if random.random () < 0.5 else 1)
-                 * (self.jitter * random.random ()))
-        zzz = abs (self.delay + wiggle) + attempt * self.backoff
-        LOG.debug ("Retryp delay: %d seconds", zzz)
         time.sleep (zzz)
     raise FailedTooOften
