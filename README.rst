@@ -22,6 +22,12 @@ Thanks go to Graham Dumpleton and his ``wrapt`` package for that latter.
 Arguments
 ---------
 
+backoff
+  Default: 10
+
+  A multiplicative factor applied to the delay, used to provide
+  increasing backoff as subsequent attempts continue to fail.
+
 count
   Default: 10
 
@@ -34,17 +40,37 @@ delay
 
   The base delay between retry attempts.
 
-backoff
-  Default: 10
+expose_last_exc
+  Default: False
 
-  A multiplicative factor applied to the delay, used to provide
-  increasing backoff as subsequent attempts continue to fail.
+  By default ``retryp`` will raise ``retryp.FailedTooOften`` if the
+  wrapped item continues to fail after the requested number of
+  attempts.  If ``expose_last_exc`` is set, then the exception raised
+  by the wrapped item will be raised if the last attempt results in an
+  exception.
 
 jitter
   Default 0
 
   Extra random seconds will be added to each retry delay, ranging from
   0 to the value of ``jitter``.
+
+log_faults
+  Default: False
+
+  Log every exception raised by the wrapped item using
+  logtool.log_fault.
+
+log_faults_level
+  Default: logging.DEBUG
+
+  Logging level at which exceptions will be logged by
+  ``logtool.log_fault()`` when ``log_faults`` is set.
+
+name
+  Default: None
+
+  String to use in log messages to describe what is being retried.
 
 refuse_rc_fn
   Default: None
@@ -60,24 +86,3 @@ refuse_exc_fn
   as the only argument to this function.  If ``refuse_exc_fn (e)``
   evaluates to True, then the exception will be raised again and
   retry attempts will cease.
-
-expose_last_exc
-  Default: False
-
-  By default ``retryp`` will raise ``retryp.FailedTooOften`` if the
-  wrapped item continues to fail after the requested number of
-  attempts.  If ``expose_last_exc`` is set, then the exception raised
-  by the wrapped item will be raised if the last attempt results in an
-  exception.
-
-log_faults
-  Default: False
-
-  Log every exception raised by the wrapped item using
-  logtool.log_fault.
-
-log_faults_level
-  Default: logging.DEBUG
-
-  Logging level at which exceptions will be logged by
-  ``logtool.log_fault()`` when ``log_faults`` is set.
